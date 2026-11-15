@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ontimelogistics – Ship and track</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fffdf5;--surface:#fff;--ink:#1d1a12;--mute:#6b6657;--line:#e6e0cc;--brand:#ffcc00;--brand-ink:#1d1a12;--red:#d40511;--ok:#1a7f45;--soft:#fff6c9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15130c;--surface:#201d12;--ink:#f7f3e3;--mute:#a9a38d;--line:#38341f;--soft:#2c2710;--ok:#4cc582;--red:#ff4b57}}
+:root[data-theme="dark"]{--bg:#15130c;--surface:#201d12;--ink:#f7f3e3;--mute:#a9a38d;--line:#38341f;--soft:#2c2710;--ok:#4cc582;--red:#ff4b57}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Barlow',system-ui,sans-serif;min-height:100%}
+h1,h2,h3{font-family:'Barlow Condensed','Arial Narrow',sans-serif;line-height:1.05;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+header{background:var(--brand);color:#1d1a12;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--brand);z-index:10}
+.bar{max-width:980px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px}
+.logo{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;letter-spacing:.2px}
+.logo b{color:var(--red)}
+nav{display:flex;gap:4px}
+nav button{background:none;border:0;padding:8px 14px;font-weight:600;cursor:pointer;border-radius:6px;color:#1d1a12}
+nav button[aria-selected="true"]{background:#1d1a12;color:#ffcc00}
+main{max-width:980px;margin:auto;padding:28px 20px 60px}
+.hero{padding:10px 0 22px}
+.hero h1{font-size:clamp(40px,8vw,68px);font-weight:700}
+.hero p{color:var(--mute);max-width:52ch;margin:10px 0 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row input{flex:1 1 220px}
+input,select,textarea{width:100%;background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:12px 14px}
+input:focus,select:focus,textarea:focus{border-color:var(--ink)}
+label{display:block;font-weight:600;font-size:14px;margin-bottom:5px}
+.btn{background:var(--brand);color:#1d1a12;border:0;border-radius:8px;padding:12px 22px;font-weight:600;cursor:pointer;border-bottom:3px solid #c9a000}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);border-bottom-width:1.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.full{grid-column:1/-1}
+.err{color:var(--red);font-weight:600;margin:10px 0 0}
+.hide{display:none}
+.recent{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--mute);font-size:14px}
+.chip{background:var(--soft);border:1px solid var(--line);border-radius:99px;padding:4px 12px;cursor:pointer;font-weight:600;color:var(--ink)}
+.res{margin-top:22px}
+.head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.tid{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:700;letter-spacing:.5px;word-break:break-all}
+.status{display:inline-block;padding:3px 12px;border-radius:99px;font-weight:600;background:var(--brand);color:#1d1a12}
+.status.done{background:var(--ok);color:#fff}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0;color:var(--mute);font-size:14px}
+.meta strong{display:block;color:var(--ink);font-size:16px}
+.route{position:relative;margin:34px 6px 14px;height:6px;background:var(--line);border-radius:6px}
+.fill{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:6px;transition:width .8s ease}
+.pk{position:absolute;top:-17px;transform:translateX(-50%);font-size:26px;transition:left .8s ease;line-height:1}
+.end{display:flex;justify-content:space-between;font-weight:600;margin:0 0 6px}
+.next{font-size:14px;color:var(--mute);margin:6px 0 0}
+ol.tl{list-style:none;margin:22px 0 0;padding:0}
+ol.tl li{position:relative;padding:0 0 20px 34px;color:var(--mute)}
+ol.tl li::before{content:"";position:absolute;left:8px;top:22px;bottom:-2px;width:2px;background:var(--line)}
+ol.tl li:last-child::before{display:none}
+ol.tl li::after{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
+ol.tl li.on{color:var(--ink)}
+ol.tl li.on::after{background:var(--ok);border-color:var(--ok)}
+ol.tl li.on::before{background:var(--ok)}
+ol.tl li.cur::after{background:var(--brand);border-color:var(--red);animation:p 1.6s infinite}
+ol.tl li b{display:block;font-size:17px}
+ol.tl li small{display:block}
+@keyframes p{50%{box-shadow:0 0 0 7px rgba(212,5,17,.18)}}
+@media (prefers-reduced-motion:reduce){ol.tl li.cur::after{animation:none}.fill,.pk{transition:none}}
+.ok-box{background:var(--soft);border:1.5px dashed var(--ink);border-radius:10px;padding:20px;margin-top:20px;text-align:center}
+.ok-box .tid{font-size:44px}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.tk{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--surface);border:2px solid var(--line);z-index:1}
+.tk.on{background:var(--red);border-color:var(--red)}
+.pk{z-index:2}
+.sched{margin-left:12px;font-size:14px;font-weight:600;color:var(--ok)}
+.sched::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px}
+.faq{margin-top:48px}
+.faq h2{font-size:clamp(30px,5vw,42px);margin-bottom:10px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 36px 16px 0;font-weight:600;font-size:17px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:24px;color:var(--red);font-weight:500}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0 0 16px;color:var(--mute);max-width:64ch}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:0 20px 30px}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<div class="logo">ontime<b>logistics</b></div>
+<nav role="tablist"><button role="tab" id="t-track" aria-selected="true">Track</button><button role="tab" id="t-ship" aria-selected="false">Ship</button></nav>
+</div></header>
+<main>
+<section class="hero"><h1>Know where it is.<br>Every step of the way.</h1><p>Create a consignment, get a tracking ID, and watch the parcel move from pickup to your door.</p></section>
+
+<section id="v-track" class="card">
+<form id="f-track" class="row"><input id="tid" aria-label="Tracking ID" placeholder="Enter tracking ID, e.g. OTL1234567890" autocomplete="off"><button class="btn" type="submit">Track shipment</button></form>
+<p class="err hide" id="e-track" role="alert"></p>
+<div class="recent" id="recent"></div>
+<div class="res hide" id="res"></div>
+</section>
+
+<section id="v-ship" class="card hide">
+<h2 style="font-size:30px;margin-bottom:14px">Create a consignment</h2>
+<form id="f-ship" class="grid">
+<div><label for="s-name">Sender name</label><input id="s-name" required></div>
+<div><label for="r-name">Receiver name</label><input id="r-name" required></div>
+<div><label for="s-city">From (city, country)</label><input id="s-city" required placeholder="Jos, Nigeria"></div>
+<div><label for="r-city">To (city, country)</label><input id="r-city" required placeholder="London, UK"></div>
+<div><label for="wt">Weight (kg)</label><input id="wt" type="number" min="0.1" step="0.1" value="2" required></div>
+<div><label for="svc">Service</label><select id="svc"><option value="2">Express (2 days)</option><option value="5" selected>Standard (5 days)</option><option value="8">Economy (8 days)</option></select></div>
+<div class="full"><label for="desc">Package contents</label><input id="desc" required placeholder="Documents, clothing, electronics…"></div>
+<div class="full"><label for="spd">Update speed</label><select id="spd"><option value="600000">Rapid – delivered in about 10 minutes</option><option value="1800000" selected>Standard – about 30 minutes</option><option value="7200000">Extended – about 2 hours</option><option value="86400000">Overnight – about 24 hours</option></select></div>
+<div class="full"><button class="btn" type="submit">Generate tracking ID</button></div>
+</form>
+<div id="made" class="hide"></div>
+</section>
+<section class="faq" aria-labelledby="faq-h">
+<h2 id="faq-h">Frequently asked questions</h2>
+<details><summary>How do I track my shipment?</summary><p>Open the Track tab, enter your tracking ID and select Track shipment. You will see the current status, the route progress and a full timeline of every update so far.</p></details>
+<details><summary>Where do I find my tracking ID?</summary><p>Your tracking ID is shown as soon as you create a consignment on the Ship tab. It starts with OTL followed by 10 digits. Copy it and share it with your receiver so they can follow the parcel too.</p></details>
+<details><summary>How long will my delivery take?</summary><p>Express delivers in about 2 days, Standard in about 5 days and Economy in about 8 days from the time of booking. The estimated delivery date is shown on your tracking page.</p></details>
+<details><summary>What do the tracking statuses mean?</summary><p>A shipment moves from Shipment created and Picked up, through the origin facility, transit and the destination hub, then customs clearance and Out for delivery, and ends at Delivered. The status marked as current is where your parcel is now.</p></details>
+<details><summary>Why does my tracking ID say it can’t be found?</summary><p>Check that the ID has no spaces and is typed in full, for example OTL followed by 10 digits. IDs are saved on the device where the shipment was created, so try tracking from that same device or browser.</p></details>
+</section>
+</main>
+<footer>© ontimelogistics</footer>
+
+<script>
+(function(){
+var STAGES=[
+["Shipment created","Consignment details received","{from}"],
+["Picked up","Collected from sender","{from}"],
+["Arrived at origin facility","Sorted and scanned","{from} sort centre"],
+["Departed origin","On its way to the main hub","{from} gateway"],
+["In transit","Moving between hubs","International transit"],
+["Arrived at destination hub","Unloaded and scanned","{to} hub"],
+["Customs clearance","Cleared for import","{to} customs"],
+["Out for delivery","With the courier for delivery","{to} depot"],
+["Delivered","Signed for by {receiver}","{to}"]];
+var HOURS=[0,3,7,12,26,50,58,70,76];
+var mem={};
+function load(){try{var v=localStorage.getItem('otl_ships');return v?JSON.parse(v):[];}catch(e){return mem.s||[];}}
+function save(a){try{localStorage.setItem('otl_ships',JSON.stringify(a));}catch(e){mem.s=a;}}
+var ships=load();
+function $(i){return document.getElementById(i);}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmt(t){return new Date(t).toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
+function newId(){var id;do{id='OTL';for(var i=0;i<10;i++)id+=Math.floor(Math.random()*10);}while(ships.some(function(s){return s.id===id;}));return id;}
+function tot(s){return s.total||s.ms*8;}
+function at(s,k){return s.created+HOURS[k]/HOURS[8]*tot(s);}
+function step(s){var n=Date.now(),k=0;while(k<8&&n>=at(s,k+1))k++;return k;}
+function dur(ms){var t=Math.max(1,Math.ceil(ms/1000)),h=Math.floor(t/3600),m=Math.floor(t%3600/60),c=t%60;return h?h+'h '+m+'m':m?m+'m '+c+'s':c+'s';}
+function svc(s){return s.days===2?'Express':s.days===8?'Economy':'Standard';}
+function ticks(i){var h='';for(var k=0;k<9;k++)h+='<i class="tk'+(k<=i?' on':'')+'" style="left:'+(k/8*100)+'%"></i>';return h;}
+function fill(t,s){return t.replace('{from}',esc(s.from)).replace('{to}',esc(s.to)).replace('{receiver}',esc(s.receiver));}
+var cur=null,timer=null;
+
+function tab(name){
+ var tr=name==='track';
+ $('v-track').classList.toggle('hide',!tr);$('v-ship').classList.toggle('hide',tr);
+ $('t-track').setAttribute('aria-selected',tr);$('t-ship').setAttribute('aria-selected',!tr);
+}
+$('t-track').onclick=function(){tab('track');};
+$('t-ship').onclick=function(){tab('ship');};
+
+function recent(){
+ var el=$('recent');
+ if(!ships.length){el.innerHTML='No shipments yet. Use the Ship tab to create one.';return;}
+ el.innerHTML='Recent: '+ships.slice(-5).reverse().map(function(s){return '<button type="button" class="chip" data-id="'+s.id+'">'+s.id+'</button>';}).join('');
+ Array.prototype.forEach.call(el.querySelectorAll('.chip'),function(b){b.onclick=function(){$('tid').value=b.dataset.id;show(b.dataset.id);};});
+}
+
+function render(){
+ var s=cur;if(!s)return;
+ var i=step(s),done=i===STAGES.length-1,pct=done?100:Math.round((i+(Date.now()-at(s,i))/(at(s,i+1)-at(s,i)))/8*1000)/10;
+ var eta=s.created+s.days*86400000;
+ var h='<div class="head"><div><div class="tid">'+s.id+'</div><span class="status'+(done?' done':'')+'">'+esc(STAGES[i][0])+'</span>'+(done?'':'<span class="sched">On schedule</span>')+'</div>'+
+ '<button class="btn ghost" id="adv" type="button"'+(done?' disabled':'')+'>Skip to next update</button></div>'+
+ '<div class="meta"><div>From<strong>'+esc(s.from)+'</strong></div><div>To<strong>'+esc(s.to)+'</strong></div><div>Receiver<strong>'+esc(s.receiver)+'</strong></div>'+
+ '<div>Weight<strong>'+esc(s.weight)+' kg</strong></div><div>Service<strong>'+svc(s)+'</strong></div><div>'+(done?'Delivered':'Estimated delivery')+'<strong>'+(done?fmt(s.created+HOURS[8]*3600000):new Date(eta).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}))+'</strong></div></div>'+
+ '<div class="end"><span>'+esc(s.from)+'</span><span>'+esc(s.to)+'</span></div>'+
+ '<div class="route">'+ticks(i)+'<div class="fill" style="width:'+pct+'%"></div><div class="pk" style="left:'+pct+'%" aria-hidden="true">'+(i>=3&&i<=5?'✈️':'🚚')+'</div></div>'+
+ '<p class="next">'+(done?'This shipment has been delivered.':'Next scan expected in about '+dur(at(s,i+1)-Date.now())+'.')+'</p><ol class="tl">';
+ for(var k=STAGES.length-1;k>=0;k--){
+  var cls=k<=i?'on':'';if(k===i&&!done)cls+=' cur';
+  h+='<li class="'+cls+'"><b>'+esc(STAGES[k][0])+'</b>'+(k<=i?'<small>'+fill(STAGES[k][2],s)+' · '+fmt(s.created+HOURS[k]*3600000)+'</small><small>'+fill(STAGES[k][1],s)+'</small>':'<small>Pending</small>')+'</li>';
+ }
+ $('res').innerHTML=h+'</ol>';
+ var a=$('adv');if(a)a.onclick=function(){s.created-=at(s,i+1)-Date.now()+50;save(ships);render();};
+}
+
+function show(id){
+ id=id.trim().toUpperCase();
+ var s=ships.filter(function(x){return x.id===id;})[0];
+ $('e-track').classList.add('hide');
+ clearInterval(timer);
+ if(!s){cur=null;$('res').classList.add('hide');$('e-track').textContent='We couldn’t find '+(id||'that ID')+'. Check the ID and try again, or create a shipment on the Ship tab.';$('e-track').classList.remove('hide');return;}
+ cur=s;$('res').classList.remove('hide');render();
+ timer=setInterval(render,1000);
+}
+$('f-track').onsubmit=function(e){e.preventDefault();show($('tid').value);};
+
+$('f-ship').onsubmit=function(e){
+ e.preventDefault();
+ var s={id:newId(),sender:$('s-name').value.trim(),receiver:$('r-name').value.trim(),from:$('s-city').value.trim(),to:$('r-city').value.trim(),weight:$('wt').value,days:+$('svc').value,desc:$('desc').value.trim(),total:+$('spd').value,created:Date.now()};
+ ships.push(s);save(ships);
+ var m=$('made');
+ m.innerHTML='<div class="ok-box"><div>Your consignment is booked. Tracking ID:</div><div class="tid">'+s.id+'</div><div class="acts"><button class="btn" id="go" type="button">Track this parcel</button><button class="btn ghost" id="cp" type="button">Copy ID</button></div></div>';
+ m.classList.remove('hide');
+ $('go').onclick=function(){tab('track');$('tid').value=s.id;recent();show(s.id);};
+ $('cp').onclick=function(){var b=$('cp');try{navigator.clipboard.writeText(s.id).then(function(){b.textContent='Copied';});}catch(x){b.textContent=s.id;}};
+ $('f-ship').reset();recent();
+};
+recent();
+})();
+</script>
+</body>
+</html>
