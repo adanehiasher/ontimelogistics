@@ -84,16 +84,58 @@ ol.tl li small{display:block}
 .faq summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:24px;color:var(--red);font-weight:500}
 .faq details[open] summary::after{content:"−"}
 .faq details p{margin:0 0 16px;color:var(--mute);max-width:64ch}
-footer{text-align:center;color:var(--mute);font-size:13px;padding:0 20px 30px}
+.vals{margin-top:56px;display:grid;gap:18px}
+.val{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--brand);border-radius:10px;padding:26px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:22px}
+.val .no{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red);font-size:18px}
+.val h2{font-size:clamp(28px,4.6vw,38px);margin:4px 0 0}
+.val p{margin:0 0 12px;color:var(--mute)}
+.val ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.val li{padding-left:22px;position:relative}
+.val li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border-radius:2px;background:var(--brand)}
+.stats{margin-top:40px;background:#1d1a12;color:#f7f3e3;border-radius:10px;padding:28px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:22px;border-bottom:5px solid var(--brand)}
+.stats b{display:block;font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,7vw,58px);color:#ffcc00;line-height:1}
+.stats span{color:#cfc8ae;font-size:14px;display:block;margin-top:4px}
+.sec{margin-top:56px}
+.sec>h2{font-size:clamp(30px,5vw,42px)}
+.sec>.lead{color:var(--mute);max-width:60ch;margin:10px 0 20px}
+.adv{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.adv svg{width:34px;height:34px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.adv h3{font-size:23px;margin-bottom:6px}
+.adv p{margin:0;color:var(--mute);font-size:15px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));counter-reset:s;border-top:3px solid var(--brand)}
+.steps li{padding:18px 16px 6px 0;counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:700;margin-bottom:8px}
+.steps b{display:block;font-size:17px}
+.steps span{color:var(--mute);font-size:14px}
+.biz{margin-top:56px;background:var(--brand);color:#1d1a12;border-radius:10px;padding:30px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.biz h2{font-size:clamp(28px,4.6vw,38px)}
+.biz p{margin:8px 0 0;max-width:52ch}
+.biz a{background:#1d1a12;color:#ffcc00;text-decoration:none;font-weight:600;padding:13px 24px;border-radius:8px}
+.cl{margin-top:8px}
+.cl>div{padding:16px 0;border-bottom:1px solid var(--line)}
+.cl b{display:block;font-weight:600;font-size:14px;color:var(--red)}
+.cl a{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-color:var(--brand);text-decoration-thickness:3px;text-underline-offset:4px;word-break:break-all}
+.cl span{display:block;color:var(--mute);font-size:14px}
+footer{background:#1d1a12;color:#f7f3e3;padding:40px 20px 0;font-size:14px}
+.ft{max-width:980px;margin:auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:28px}
+.ft h3{font-size:19px;color:#ffcc00;margin-bottom:10px}
+.ft p{margin:8px 0 0;color:#cfc8ae;max-width:34ch}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;color:#cfc8ae}
+.ft a,.ft button{color:#f7f3e3;background:none;border:0;padding:0;cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:3px}
+.ft .logo{color:#ffcc00}
+.ft .logo b{color:#ff4b57}
+.fb{max-width:980px;margin:32px auto 0;border-top:1px solid #38341f;padding:16px 0 20px;color:#a9a38d;font-size:13px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media(max-width:760px){.ft{grid-template-columns:1fr 1fr}.ft>div:first-child{grid-column:1/-1}.val{grid-template-columns:1fr}}
+@media(max-width:480px){nav button{padding:8px 9px;font-size:14px}.logo{font-size:22px}.bar{padding:10px 14px}}
 </style>
 </head>
 <body>
 <header><div class="bar">
 <div class="logo">ontime<b>logistics</b></div>
-<nav role="tablist"><button role="tab" id="t-track" aria-selected="true">Track</button><button role="tab" id="t-ship" aria-selected="false">Ship</button></nav>
+<nav role="tablist"><button role="tab" id="t-track" aria-selected="true">Track</button><button role="tab" id="t-ship" aria-selected="false">Ship</button><button role="tab" id="t-contact" aria-selected="false">Contact</button></nav>
 </div></header>
 <main>
-<section class="hero"><h1>Know where it is.<br>Every step of the way.</h1><p>Create a consignment, get a tracking ID, and watch the parcel move from pickup to your door.</p></section>
+<section class="hero" id="hero"><h1>Know where it is.<br>Every step of the way.</h1><p>Create a consignment, get a tracking ID, and watch the parcel move from pickup to your door.</p></section>
 
 <section id="v-track" class="card">
 <form id="f-track" class="row"><input id="tid" aria-label="Tracking ID" placeholder="Enter tracking ID, e.g. OTL1234567890" autocomplete="off"><button class="btn" type="submit">Track shipment</button></form>
@@ -117,7 +159,49 @@ footer{text-align:center;color:var(--mute);font-size:13px;padding:0 20px 30px}
 </form>
 <div id="made" class="hide"></div>
 </section>
-<section class="faq" aria-labelledby="faq-h">
+<section id="v-contact" class="card hide">
+<h2 style="font-size:30px;margin-bottom:6px">Contact us</h2>
+<p style="margin:0;color:var(--mute)">Send us an email and our team will reply as soon as possible. Please include your tracking ID if your message is about a shipment.</p>
+<div class="cl">
+<div><b>Customer support</b><a href="mailto:support@ontimelogistics.com">support@ontimelogistics.com</a><span>Tracking questions, delivery issues and general help.</span></div>
+<div><b>Shipping and quotes</b><a href="mailto:shipping@ontimelogistics.com">shipping@ontimelogistics.com</a><span>Booking a consignment, service options and business accounts.</span></div>
+<div><b>General enquiries</b><a href="mailto:info@ontimelogistics.com">info@ontimelogistics.com</a><span>Partnerships, media and everything else.</span></div>
+</div>
+</section>
+
+<div class="stats" id="stats">
+<div><b>9</b><span>tracked checkpoints on every shipment, from booking to delivery</span></div>
+<div><b>3</b><span>service levels: Express, Standard and Economy</span></div>
+<div><b>24/7</b><span>online tracking with your unique ID</span></div>
+<div><b>100%</b><span>of consignments receive their own tracking ID</span></div>
+</div>
+
+<section class="sec" id="why"><h2>Why ship with ontimelogistics</h2><p class="lead">Everything you need to send with confidence, whether you are a business or a family.</p>
+<div class="adv">
+<div class="card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><h3>Time-definite delivery</h3><p>Choose Express, Standard or Economy and get an estimated delivery date as soon as you book.</p></div>
+<div class="card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><h3>Visibility at every step</h3><p>Nine checkpoints and live status updates keep senders and receivers fully informed.</p></div>
+<div class="card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M9 14l2 2 4-4"/></svg><h3>Customs support</h3><p>Customs clearance is a tracked stage on every journey, so you see exactly when your parcel clears.</p></div>
+<div class="card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><h3>Accountable handling</h3><p>Every parcel is scanned at each hand-off and confirmed with a signature on delivery.</p></div>
+</div></section>
+
+<section class="sec" id="how"><h2>How shipping works</h2><p class="lead">Five clear steps from booking to your doorstep.</p>
+<ol class="steps">
+<li><b>Book</b><span>Enter the sender, receiver and package details.</span></li>
+<li><b>Get your ID</b><span>Receive a unique tracking ID instantly.</span></li>
+<li><b>Pickup</b><span>Your parcel is collected and scanned at origin.</span></li>
+<li><b>In transit</b><span>It moves through hubs and customs with live updates.</span></li>
+<li><b>Delivered</b><span>Signed for and confirmed at the destination.</span></li>
+</ol></section>
+
+<div class="vals" id="values">
+<section class="val"><div><div class="no">01</div><h2>Reliability</h2></div><div><p>Every parcel, on the day we promised. We plan each route around the delivery date we give you, so you can build your business and your week around it.</p><ul><li>Clear delivery estimates on every consignment</li><li>A scan at every stage, from pickup to doorstep</li><li>Consistent service across Express, Standard and Economy</li></ul></div></section>
+<section class="val"><div><div class="no">02</div><h2>Societal empowerment and assurance</h2></div><div><p>Dependable delivery opens markets for small businesses, traders and families. We take that responsibility seriously and handle every package as if it matters, because to someone it does.</p><ul><li>Affordable options that help small businesses reach new customers</li><li>Careful handling from collection to signature</li><li>Open tracking so senders and receivers always know where a parcel stands</li></ul></div></section>
+<section class="val"><div><div class="no">03</div><h2>Customer service</h2></div><div><p>People first, from booking to delivery. Behind every consignment is a team ready to answer questions, explain what is happening and put things right.</p><ul><li>Friendly support by email, with a reply as soon as possible</li><li>Plain-language updates with no jargon</li><li>Follow-through until your issue is fully resolved</li></ul></div></section>
+</div>
+
+<section class="biz" id="biz"><div><h2>Shipping regularly for your business?</h2><p>Talk to our team about shipping solutions that fit your volume and routes.</p></div><a href="mailto:shipping@ontimelogistics.com">Email our shipping team</a></section>
+
+<section class="faq" id="faq" aria-labelledby="faq-h">
 <h2 id="faq-h">Frequently asked questions</h2>
 <details><summary>How do I track my shipment?</summary><p>Open the Track tab, enter your tracking ID and select Track shipment. You will see the current status, the route progress and a full timeline of every update so far.</p></details>
 <details><summary>Where do I find my tracking ID?</summary><p>Your tracking ID is shown as soon as you create a consignment on the Ship tab. It starts with OTL followed by 10 digits. Copy it and share it with your receiver so they can follow the parcel too.</p></details>
@@ -126,7 +210,15 @@ footer{text-align:center;color:var(--mute);font-size:13px;padding:0 20px 30px}
 <details><summary>Why does my tracking ID say it can’t be found?</summary><p>Check that the ID has no spaces and is typed in full, for example OTL followed by 10 digits. IDs are saved on the device where the shipment was created, so try tracking from that same device or browser.</p></details>
 </section>
 </main>
-<footer>© ontimelogistics</footer>
+<footer>
+<div class="ft">
+<div><div class="logo">ontime<b>logistics</b></div><p>Reliable parcel delivery, tracked from pickup to doorstep.</p></div>
+<div><h3>Services</h3><ul><li>Express delivery</li><li>Standard delivery</li><li>Economy delivery</li></ul></div>
+<div><h3>Quick links</h3><ul><li><button type="button" data-go="track">Track a shipment</button></li><li><button type="button" data-go="ship">Create a consignment</button></li><li><button type="button" data-go="faq">FAQs</button></li><li><button type="button" data-go="contact">Contact</button></li></ul></div>
+<div><h3>Email us</h3><ul><li><a href="mailto:support@ontimelogistics.com">support@ontimelogistics.com</a></li><li><a href="mailto:shipping@ontimelogistics.com">shipping@ontimelogistics.com</a></li><li><a href="mailto:info@ontimelogistics.com">info@ontimelogistics.com</a></li></ul></div>
+</div>
+<div class="fb"><span>© 2026 ontimelogistics. All rights reserved.</span><span>Delivering on time, every time.</span></div>
+</footer>
 
 <script>
 (function(){
@@ -159,12 +251,14 @@ function fill(t,s){return t.replace('{from}',esc(s.from)).replace('{to}',esc(s.t
 var cur=null,timer=null;
 
 function tab(name){
- var tr=name==='track';
- $('v-track').classList.toggle('hide',!tr);$('v-ship').classList.toggle('hide',tr);
- $('t-track').setAttribute('aria-selected',tr);$('t-ship').setAttribute('aria-selected',!tr);
+ ['track','ship','contact'].forEach(function(k){$('v-'+k).classList.toggle('hide',k!==name);$('t-'+k).setAttribute('aria-selected',k===name);});
+ ['hero','stats','why','how','values','biz','faq'].forEach(function(k){$(k).classList.toggle('hide',name==='contact');});
+ window.scrollTo(0,0);
 }
 $('t-track').onclick=function(){tab('track');};
 $('t-ship').onclick=function(){tab('ship');};
+$('t-contact').onclick=function(){tab('contact');};
+Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(b){b.onclick=function(){var g=b.dataset.go;if(g==='faq'){tab('track');$('faq').scrollIntoView({behavior:'smooth'});}else tab(g);};});
 
 function recent(){
  var el=$('recent');
