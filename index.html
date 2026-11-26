@@ -126,13 +126,137 @@ footer{background:#1d1a12;color:#f7f3e3;padding:40px 20px 0;font-size:14px}
 .ft .logo b{color:#ff4b57}
 .fb{max-width:980px;margin:32px auto 0;border-top:1px solid #38341f;padding:16px 0 20px;color:#a9a38d;font-size:13px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 @media(max-width:760px){.ft{grid-template-columns:1fr 1fr}.ft>div:first-child{grid-column:1/-1}.val{grid-template-columns:1fr}}
-@media(max-width:480px){nav button{padding:8px 9px;font-size:14px}.logo{font-size:22px}.bar{padding:10px 14px}}
+@media(max-width:480px){nav button,.navadm{padding:8px 8px;font-size:14px}.logo{font-size:22px}.bar{padding:10px 14px;flex-wrap:wrap}}
+
+/* ===== Admin ===== */
+:root{--a-bg:#e3e5de;--a-main:#eff0ea;--a-side:#f8f9f5;--a-card:#fff;--a-ink:#1b1e17;--a-mute:#656b5d;--a-line:#dfe2d8;--a-hov:#f1f2ec;--a-em:#1b1e17;--a-emi:#f6f7f1;--a-soft:#fff3bd;--a-ok:#1a7f45;--a-red:#c4101b;--a-yel:#ffcc00;--a-off:#b9bdb0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--a-bg:#0b0d09;--a-main:#12150f;--a-side:#171a13;--a-card:#1c2018;--a-ink:#f0f2e8;--a-mute:#a3a998;--a-line:#2c3126;--a-hov:#22271d;--a-em:#f0f2e8;--a-emi:#171a13;--a-soft:#2d2a10;--a-ok:#4cc582;--a-red:#ff6670;--a-off:#4a5043}}
+:root[data-theme="dark"]{--a-bg:#0b0d09;--a-main:#12150f;--a-side:#171a13;--a-card:#1c2018;--a-ink:#f0f2e8;--a-mute:#a3a998;--a-line:#2c3126;--a-hov:#22271d;--a-em:#f0f2e8;--a-emi:#171a13;--a-soft:#2d2a10;--a-ok:#4cc582;--a-red:#ff6670;--a-off:#4a5043}
+.navwrap{display:flex;gap:8px;align-items:center}
+.navadm{background:none;border:0;padding:8px 14px;font-weight:600;cursor:pointer;border-radius:6px;color:#1d1a12;box-shadow:inset 0 0 0 1.5px rgba(29,26,18,.35)}
+.navadm:hover{background:rgba(29,26,18,.08)}
+#admin{display:none}
+body.adm>header,body.adm>main,body.adm>footer{display:none}
+body.adm::before{display:none}
+body.adm{background:var(--a-bg)}
+body.adm #admin{display:block}
+.ad{min-height:100vh;min-height:100dvh;color:var(--a-ink);font:15px/1.5 'Barlow',system-ui,sans-serif}
+.ad h1,.ad h2,.ad h3{font-family:'Barlow',system-ui,sans-serif;font-weight:600;line-height:1.25;margin:0}
+.ad .hide{display:none!important}
+.ad button{cursor:pointer}
+.ad :focus-visible{outline:3px solid var(--a-ink);outline-offset:2px}
+.a-b{border:0;border-radius:10px;padding:10px 16px;font-weight:600;background:var(--a-em);color:var(--a-emi)}
+.a-b:hover{opacity:.88}
+.a-b.gh{background:transparent;color:var(--a-ink);box-shadow:inset 0 0 0 1.5px var(--a-line)}
+.a-b.gh:hover{background:var(--a-hov);opacity:1}
+.a-b.sm{padding:7px 13px;font-size:14px}
+.a-b:disabled{opacity:.4;cursor:not-allowed}
+.a-lk{background:none;border:0;color:var(--a-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.a-in{width:100%;background:var(--a-card);color:var(--a-ink);border:1.5px solid var(--a-line);border-radius:10px;padding:11px 14px;font:inherit}
+.a-in:focus{border-color:var(--a-ink)}
+/* gate */
+.a-gate{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px}
+.a-gc{width:100%;max-width:400px;background:var(--a-card);border:1px solid var(--a-line);border-radius:20px;padding:32px 28px;display:grid;gap:14px}
+.a-gc h1{font-size:26px}
+.a-gc p{margin:0;color:var(--a-mute)}
+.a-gc .err{margin:0;color:var(--a-red)}
+.a-gc label{font-weight:600;font-size:14px;margin-bottom:5px}
+.a-lock{width:48px;height:48px;border-radius:14px;background:var(--a-em);color:var(--a-emi);display:grid;place-items:center}
+.a-lock svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.a-pw{position:relative}
+.a-pw .a-in{padding-right:70px}
+.a-pw .a-lk{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:14px}
+/* frame */
+.a-wrap{padding:16px;min-height:100vh;min-height:100dvh}
+.a-dash{display:grid;grid-template-columns:236px minmax(0,1fr);background:var(--a-side);border:1px solid var(--a-line);border-radius:22px;overflow:hidden;min-height:calc(100vh - 32px);min-height:calc(100dvh - 32px)}
+.a-side{display:flex;flex-direction:column;gap:4px;padding:22px 14px;border-right:1px solid var(--a-line)}
+.a-logo{font:700 24px/1 'Barlow Condensed','Arial Narrow',sans-serif;padding:4px 10px 18px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.a-logo b{color:var(--a-red)}
+.a-logo span{font:600 13px 'Barlow',sans-serif;color:var(--a-mute);background:var(--a-main);border-radius:99px;padding:2px 10px}
+.a-si{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:10px 12px;font-weight:500;color:var(--a-mute)}
+.a-si svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.a-si:hover{background:var(--a-hov);color:var(--a-ink)}
+.a-si.cur{background:var(--a-em);color:var(--a-emi);font-weight:600;cursor:default}
+.a-sp{flex:1}
+.a-main{background:var(--a-main);padding:26px;display:grid;gap:18px;align-content:start;min-width:0}
+.a-top h1{font-size:26px}
+.a-top p{margin:2px 0 0;color:var(--a-mute)}
+.a-kpis{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:12px}
+.a-k{background:var(--a-card);border:1px solid var(--a-line);border-radius:14px;padding:16px 18px;display:grid;gap:10px;align-content:space-between}
+.a-k.em{background:var(--a-em);color:var(--a-emi);border-color:transparent}
+.a-kl{font-size:14px;color:var(--a-mute)}
+.a-k.em .a-kl{color:inherit;opacity:.75}
+.a-kn{font:700 40px/1 'Barlow Condensed','Arial Narrow',sans-serif}
+.a-k.em .a-kn{font-size:52px}
+.a-work{display:grid;grid-template-columns:minmax(250px,320px) minmax(0,1fr);gap:14px;align-items:start}
+.a-p{background:var(--a-card);border:1px solid var(--a-line);border-radius:14px;padding:18px;min-width:0}
+.a-ph{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.a-ph h2{font-size:17px}
+/* shipment list */
+.a-list{display:grid;gap:6px;margin-top:12px;max-height:540px;overflow:auto;padding:2px}
+.a-it{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;background:transparent;color:inherit;border:1.5px solid transparent;border-radius:10px;padding:10px 12px;font:inherit}
+.a-it:hover{background:var(--a-hov)}
+.a-it[aria-pressed="true"]{background:var(--a-soft);border-color:var(--a-ink)}
+.a-id{font-weight:600;letter-spacing:.3px}
+.a-rt{grid-column:1/-1;color:var(--a-mute);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.a-st{grid-column:1/-1;font-size:13px;display:flex;align-items:center;gap:6px}
+.a-st i{width:9px;height:9px;border-radius:50%;background:var(--a-yel);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);flex:none}
+.a-st i.g{background:var(--a-ok);box-shadow:none}
+.a-tag{font-size:12px;font-weight:600;background:var(--a-hov);color:var(--a-ink);border-radius:99px;padding:1px 9px;align-self:center}
+.a-none,.a-empty{color:var(--a-mute);padding:14px 4px}
+.a-empty{text-align:center;padding:48px 12px}
+/* detail */
+.a-dh{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.a-tid{font:700 36px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.5px;word-break:break-all}
+.a-sub{color:var(--a-mute);margin-top:4px}
+.a-bt{display:flex;gap:8px;flex-wrap:wrap}
+.a-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:18px 0}
+.a-info>div{background:var(--a-main);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--a-mute);min-width:0}
+.a-info>div.hl{background:var(--a-soft)}
+.a-info strong{display:block;color:var(--a-ink);font-size:15px;overflow-wrap:anywhere}
+.a-blk{border-top:1px solid var(--a-line);padding-top:16px;margin-top:6px}
+.a-blk+.a-blk{margin-top:20px}
+.a-blk h3{font-size:16px}
+.a-hint{margin:4px 0 12px;color:var(--a-mute);font-size:14px;max-width:62ch}
+.a-seg{display:inline-flex;background:var(--a-main);border-radius:12px;padding:4px;gap:4px;margin-top:10px}
+.a-seg button{border:0;background:transparent;color:var(--a-mute);border-radius:9px;padding:8px 18px;font:inherit;font-weight:600}
+.a-seg button[aria-pressed="true"]{background:var(--a-em);color:var(--a-emi)}
+.a-seg+.a-hint{margin-top:10px}
+.a-tb{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+/* milestones */
+.a-ms{list-style:none;margin:0;padding:0}
+.a-m{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 0;border-top:1px solid var(--a-line)}
+.a-m:first-child{border-top:0}
+.a-mk{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;box-shadow:inset 0 0 0 1.5px var(--a-line);color:var(--a-mute)}
+.a-mk svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.a-m.done .a-mk{background:var(--a-ok);color:#fff;box-shadow:none}
+.a-m.cur .a-mk{background:var(--a-yel);color:#1b1e17;box-shadow:0 0 0 4px var(--a-soft)}
+.a-mt b{display:block;font-weight:600}
+.a-mt span,.a-mt em{display:block;font-size:13px;color:var(--a-mute);font-style:normal}
+.a-m.cur .a-mt em{color:var(--a-ink);font-weight:600}
+.a-m.off .a-mt,.a-m.off .a-mk{opacity:.5}
+.a-ma{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.a-swg{display:inline-flex;align-items:center;gap:8px}
+.a-sw{width:42px;height:24px;border-radius:99px;border:0;background:var(--a-off);position:relative;padding:0;flex:none;transition:background .15s}
+.a-sw i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s}
+.a-sw[aria-checked="true"]{background:var(--a-ok)}
+.a-sw[aria-checked="true"] i{transform:translateX(18px)}
+.a-swl{font-size:13px;font-weight:600;width:48px}
+/* feedback */
+.a-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--a-em);color:var(--a-emi);padding:10px 18px;border-radius:99px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;max-width:calc(100% - 32px);text-align:center}
+.a-toast.show{opacity:1}
+.a-bk{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;background:#1d1a12;color:#ffcc00;border:0;border-radius:99px;padding:12px 20px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+body.adm .a-bk{display:none}
+@media(max-width:1020px){.a-work{grid-template-columns:1fr}.a-list{max-height:280px}}
+@media(max-width:820px){.a-wrap{padding:0}.a-dash{grid-template-columns:1fr;border-radius:0;border:0;min-height:100vh}.a-side{flex-direction:row;flex-wrap:wrap;align-items:center;border-right:0;border-bottom:1px solid var(--a-line);padding:12px 14px}.a-logo{padding:0;margin-right:auto}.a-si{width:auto}.a-si.cur,.a-sp{display:none}.a-main{padding:18px 14px}.a-kpis{grid-template-columns:1fr 1fr}.a-k.em{grid-column:1/-1}}
+@media(max-width:560px){.a-m{grid-template-columns:34px minmax(0,1fr)}.a-ma{grid-column:2;justify-content:flex-start}.a-tid{font-size:30px}}
+@media (prefers-reduced-motion:reduce){.a-sw,.a-sw i,.a-toast{transition:none}}
 </style>
 </head>
 <body>
 <header><div class="bar">
 <div class="logo">ontime<b>logistics</b></div>
-<nav role="tablist"><button role="tab" id="t-track" aria-selected="true">Track</button><button role="tab" id="t-ship" aria-selected="false">Ship</button><button role="tab" id="t-contact" aria-selected="false">Contact</button></nav>
+<div class="navwrap"><nav role="tablist"><button role="tab" id="t-track" aria-selected="true">Track</button><button role="tab" id="t-ship" aria-selected="false">Ship</button><button role="tab" id="t-contact" aria-selected="false">Contact</button></nav><button type="button" id="t-admin" class="navadm">Admin</button></div>
 </div></header>
 <main>
 <section class="hero" id="hero"><h1>Know where it is.<br>Every step of the way.</h1><p>Create a consignment, get a tracking ID, and watch the parcel move from pickup to your door.</p></section>
@@ -205,7 +329,7 @@ footer{background:#1d1a12;color:#f7f3e3;padding:40px 20px 0;font-size:14px}
 <details><summary>Where do I find my tracking ID?</summary><p>Your tracking ID is shown as soon as you create a consignment on the Ship tab. It starts with OTL followed by 10 digits. Copy it and share it with your receiver so they can follow the parcel too.</p></details>
 <details><summary>How long will my delivery take?</summary><p>Express delivers in about 2 days, Standard in about 5 days and Economy in about 8 days from the time of booking. The estimated delivery date is shown on your tracking page.</p></details>
 <details><summary>What do the tracking statuses mean?</summary><p>A shipment moves from Shipment created and Picked up, through the origin facility, transit and the destination hub, then customs clearance and Out for delivery, and ends at Delivered. The status marked as current is where your parcel is now.</p></details>
-<details><summary>Why does my tracking ID say it can’t be found?</summary><p>Check that the ID has no spaces and is typed in full, for example OTL followed by 10 digits. IDs are saved on the device where the shipment was created, so try tracking from that same device or browser.</p></details>
+<details><summary>Why does my tracking ID say it can’t be found?</summary><p>Check that the ID has no spaces and is typed in full, for example OTL followed by 10 digits.<span id="faq-dev"> IDs are saved on the device where the shipment was created, so try tracking from that same device or browser.</span></p></details>
 </section>
 </main>
 <footer>
@@ -218,8 +342,50 @@ footer{background:#1d1a12;color:#f7f3e3;padding:40px 20px 0;font-size:14px}
 <div class="fb"><span>© 2026 ontimelogistics. All rights reserved.</span><span>Delivering on time, every time.</span></div>
 </footer>
 
+<div id="admin" class="ad">
+<div id="gate" class="a-gate">
+<form id="f-gate" class="a-gc">
+<div class="a-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+<h1>Admin access</h1>
+<p>Enter the password to manage shipment milestones.</p>
+<div><label for="pw">Password</label><div class="a-pw"><input id="pw" class="a-in" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" required><button type="button" class="a-lk" id="pwt" aria-pressed="false">Show</button></div></div>
+<p class="err hide" id="e-gate" role="alert"></p>
+<button class="a-b" type="submit">Unlock admin</button>
+<button class="a-b gh" type="button" id="g-back">Back to website</button>
+</form>
+</div>
+<div id="dash" class="a-wrap hide"><div class="a-dash">
+<div class="a-side">
+<div class="a-logo">ontime<b>logistics</b><span>Admin</span></div>
+<button class="a-si cur" type="button" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>Shipments</button>
+<div class="a-sp"></div>
+<button class="a-si" type="button" id="a-site"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Back to website</button>
+<button class="a-si" type="button" id="a-out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></svg>Log out</button>
+</div>
+<div class="a-main">
+<div class="a-top"><h1>Shipment milestones</h1><p>Pick a shipment, then choose which delivery updates customers see on the tracking page.</p></div>
+<div class="a-kpis" id="kpis"></div>
+<div class="a-work">
+<div class="a-p"><div class="a-ph"><h2>Shipments</h2><button type="button" class="a-lk" id="a-ref">Refresh</button></div><input id="a-q" class="a-in" type="search" placeholder="Search by ID or name" aria-label="Search shipments" autocomplete="off"><div class="a-list" id="a-list"></div></div>
+<div class="a-p" id="a-det"></div>
+</div>
+</div>
+</div></div>
+<div class="a-toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<button type="button" class="a-bk hide" id="bk">Back to admin</button>
+
 <script>
+    var SB_URL='https://pbdfmkrjxazfsgjvwnzm.supabase.co';
+    var SB_KEY='sb_publishable_SbtPic3CYVnxr77pYCG6yw_Ptr3d8Vu';
+    var ADMIN_EMAIL='ontimelogiisticss@gmail.com';
 (function(){
+/* ===== Supabase connection: fill in these three values (see the setup guide) ===== */
+var SB_URL='';        /* Project URL, e.g. https://abcdefgh.supabase.co */
+var SB_KEY='';        /* The public "anon" or "publishable" key. Never the secret / service_role key. */
+var ADMIN_EMAIL='';   /* The email of the admin user you create in Supabase */
+var USE_SB=!!(SB_URL&&SB_KEY&&ADMIN_EMAIL);
+SB_URL=SB_URL.replace(/\/+$/,'');
 var STAGES=[
 ["Shipment created","Consignment details received","{from}"],
 ["Picked up","Collected from sender","{from}"],
@@ -244,9 +410,18 @@ function at(s,k){return s.created+HOURS[k]/HOURS[8]*tot(s);}
 function step(s){var n=Date.now(),k=0;while(k<8&&n>=at(s,k+1))k++;return k;}
 function dur(ms){var t=Math.max(1,Math.ceil(ms/1000)),h=Math.floor(t/3600),m=Math.floor(t%3600/60),c=t%60;return h?h+'h '+m+'m':m?m+'m '+c+'s':c+'s';}
 function svc(s){return s.days===2?'Express':s.days===8?'Economy':'Standard';}
-function ticks(i){var h='';for(var k=0;k<9;k++)h+='<i class="tk'+(k<=i?' on':'')+'" style="left:'+(k/8*100)+'%"></i>';return h;}
+function ticks(i,s){var h='';for(var k=0;k<9;k++){if(hid(s,k))continue;h+='<i class="tk'+(k<=i?' on':'')+'" style="left:'+(k/8*100)+'%"></i>';}return h;}
 function fill(t,s){return t.replace('{from}',esc(s.from)).replace('{to}',esc(s.to)).replace('{receiver}',esc(s.receiver));}
 var cur=null,timer=null;
+
+/* Per-shipment admin controls: mode (auto/manual), manual stage, hidden milestones, manual timestamps */
+function ctl(s){if(!s.ctl)s.ctl={mode:'auto',stage:0,hide:{},ts:{}};if(!s.ctl.hide)s.ctl.hide={};if(!s.ctl.ts)s.ctl.ts={};return s.ctl;}
+function man(s){return !!(s.ctl&&s.ctl.mode==='manual');}
+function cstep(s){return man(s)?s.ctl.stage:step(s);}
+function hid(s,k){return !!(s.ctl&&s.ctl.hide&&s.ctl.hide[k]);}
+function when(s,k){return (man(s)&&s.ctl.ts&&s.ctl.ts[k])||s.created+HOURS[k]*3600000;}
+function vis(s,i){for(var k=i;k>=0;k--)if(!hid(s,k))return k;return -1;}
+
 
 function tab(name){
  ['track','ship','contact'].forEach(function(k){$('v-'+k).classList.toggle('hide',k!==name);$('t-'+k).setAttribute('aria-selected',k===name);});
@@ -267,45 +442,263 @@ function recent(){
 
 function render(){
  var s=cur;if(!s)return;
- var i=step(s),done=i===STAGES.length-1,pct=done?100:Math.round((i+(Date.now()-at(s,i))/(at(s,i+1)-at(s,i)))/8*1000)/10;
+ var i=cstep(s),vi=vis(s,i),m=man(s),done=vi===8,
+ pct=done?100:vi<0?0:(!m&&vi===i)?Math.round((i+(Date.now()-at(s,i))/(at(s,i+1)-at(s,i)))/8*1000)/10:Math.round(vi/8*1000)/10;
  var eta=s.created+s.days*86400000;
- var h='<div class="head"><div><div class="tid">'+s.id+'</div><span class="status'+(done?' done':'')+'">'+esc(STAGES[i][0])+'</span>'+(done?'':'<span class="sched">On schedule</span>')+'</div>'+
- '<button class="btn ghost" id="adv" type="button"'+(done?' disabled':'')+'>Skip to next update</button></div>'+
+ var h='<div class="head"><div><div class="tid">'+s.id+'</div><span class="status'+(done?' done':'')+'">'+(vi<0?'Processing':esc(STAGES[vi][0]))+'</span>'+(done?'':'<span class="sched">On schedule</span>')+'</div>'+
+ ((m||USE_SB)?'':'<button class="btn ghost" id="adv" type="button"'+(i>=8?' disabled':'')+'>Skip to next update</button>')+'</div>'+
  '<div class="meta"><div>From<strong>'+esc(s.from)+'</strong></div><div>To<strong>'+esc(s.to)+'</strong></div><div>Receiver<strong>'+esc(s.receiver)+'</strong></div>'+
- '<div>Weight<strong>'+esc(s.weight)+' kg</strong></div><div>Service<strong>'+svc(s)+'</strong></div><div>'+(done?'Delivered':'Estimated delivery')+'<strong>'+(done?fmt(s.created+HOURS[8]*3600000):new Date(eta).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}))+'</strong></div></div>'+
+ '<div>Weight<strong>'+esc(s.weight)+' kg</strong></div><div>Service<strong>'+svc(s)+'</strong></div><div>'+(done?'Delivered':'Estimated delivery')+'<strong>'+(done?fmt(when(s,8)):new Date(eta).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}))+'</strong></div></div>'+
  '<div class="end"><span>'+esc(s.from)+'</span><span>'+esc(s.to)+'</span></div>'+
- '<div class="route">'+ticks(i)+'<div class="fill" style="width:'+pct+'%"></div><div class="pk" style="left:'+pct+'%" aria-hidden="true">'+(i>=3&&i<=5?'✈️':'🚚')+'</div></div>'+
- '<p class="next">'+(done?'This shipment has been delivered.':'Next scan expected in about '+dur(at(s,i+1)-Date.now())+'.')+'</p><ol class="tl">';
+ '<div class="route">'+ticks(vi,s)+'<div class="fill" style="width:'+pct+'%"></div><div class="pk" style="left:'+pct+'%" aria-hidden="true">'+(vi>=3&&vi<=5?'✈️':'🚚')+'</div></div>'+
+ '<p class="next">'+(done?'This shipment has been delivered.':(m||i>=8)?'The next update will be posted by our team.':'Next scan expected in about '+dur(at(s,i+1)-Date.now())+'.')+'</p><ol class="tl">';
+ var n=0;
  for(var k=STAGES.length-1;k>=0;k--){
-  var cls=k<=i?'on':'';if(k===i&&!done)cls+=' cur';
-  h+='<li class="'+cls+'"><b>'+esc(STAGES[k][0])+'</b>'+(k<=i?'<small>'+fill(STAGES[k][2],s)+' · '+fmt(s.created+HOURS[k]*3600000)+'</small><small>'+fill(STAGES[k][1],s)+'</small>':'<small>Pending</small>')+'</li>';
+  if(hid(s,k))continue;n++;
+  var cls=k<=i?'on':'';if(k===vi&&!done)cls+=' cur';
+  h+='<li class="'+cls+'"><b>'+esc(STAGES[k][0])+'</b>'+(k<=i?'<small>'+fill(STAGES[k][2],s)+' · '+fmt(when(s,k))+'</small><small>'+fill(STAGES[k][1],s)+'</small>':'<small>Pending</small>')+'</li>';
  }
- $('res').innerHTML=h+'</ol>';
+ $('res').innerHTML=h+'</ol>'+(n?'':'<p class="next">No updates to show yet.</p>');
  var a=$('adv');if(a)a.onclick=function(){s.created-=at(s,i+1)-Date.now()+50;save(ships);render();};
 }
 
+var reqN=0;
 function show(id){
  id=id.trim().toUpperCase();
- var s=ships.filter(function(x){return x.id===id;})[0];
+ var my=++reqN;
  $('e-track').classList.add('hide');
  clearInterval(timer);
- if(!s){cur=null;$('res').classList.add('hide');$('e-track').textContent='We couldn’t find '+(id||'that ID')+'. Check the ID and try again, or create a shipment on the Ship tab.';$('e-track').classList.remove('hide');return;}
- cur=s;$('res').classList.remove('hide');render();
- timer=setInterval(render,1000);
+ function miss(){cur=null;$('res').classList.add('hide');$('e-track').textContent='We couldn’t find '+(id||'that ID')+'. Check the ID and try again, or create a shipment on the Ship tab.';$('e-track').classList.remove('hide');}
+ function go(s){
+  cur=s;$('res').classList.remove('hide');render();
+  var n=0;
+  timer=setInterval(function(){
+   render();
+   if(USE_SB&&++n%15===0)rGet(cur.id).then(function(d){if(d&&cur&&d.id===cur.id){cur=d;render();}},function(){});
+  },1000);
+ }
+ if(USE_SB){
+  if(!id){miss();return;}
+  rGet(id).then(function(d){if(my!==reqN)return;if(d)go(d);else miss();},function(){if(my!==reqN)return;cur=null;$('res').classList.add('hide');$('e-track').textContent='We could not reach the tracking service. Check your connection and try again.';$('e-track').classList.remove('hide');});
+  return;
+ }
+ var s=ships.filter(function(x){return x.id===id;})[0];
+ if(!s){miss();return;}
+ go(s);
 }
 $('f-track').onsubmit=function(e){e.preventDefault();show($('tid').value);};
 
 $('f-ship').onsubmit=function(e){
  e.preventDefault();
+ var btn=$('f-ship').querySelector('button[type="submit"]');
  var s={id:newId(),sender:$('s-name').value.trim(),receiver:$('r-name').value.trim(),from:$('s-city').value.trim(),to:$('r-city').value.trim(),weight:$('wt').value,days:+$('svc').value,desc:$('desc').value.trim(),total:+$('spd').value,created:Date.now()};
- ships.push(s);save(ships);
- var m=$('made');
- m.innerHTML='<div class="ok-box"><div>Your consignment is booked. Tracking ID:</div><div class="tid">'+s.id+'</div><div class="acts"><button class="btn" id="go" type="button">Track this parcel</button><button class="btn ghost" id="cp" type="button">Copy ID</button></div></div>';
- m.classList.remove('hide');
- $('go').onclick=function(){tab('track');$('tid').value=s.id;recent();show(s.id);};
- $('cp').onclick=function(){var b=$('cp');try{navigator.clipboard.writeText(s.id).then(function(){b.textContent='Copied';});}catch(x){b.textContent=s.id;}};
- $('f-ship').reset();recent();
+ function done(){
+  ships.push(s);save(ships);
+  var m=$('made');
+  m.innerHTML='<div class="ok-box"><div>Your consignment is booked. Tracking ID:</div><div class="tid">'+s.id+'</div><div class="acts"><button class="btn" id="go" type="button">Track this parcel</button><button class="btn ghost" id="cp" type="button">Copy ID</button></div></div>';
+  m.classList.remove('hide');
+  $('go').onclick=function(){tab('track');$('tid').value=s.id;recent();show(s.id);};
+  $('cp').onclick=function(){var b=$('cp');try{navigator.clipboard.writeText(s.id).then(function(){b.textContent='Copied';});}catch(x){b.textContent=s.id;}};
+  $('f-ship').reset();recent();
+ }
+ if(!USE_SB){done();return;}
+ var tries=0;
+ btn.disabled=true;btn.textContent='Creating…';
+ function enable(){btn.disabled=false;btn.textContent='Generate tracking ID';}
+ (function put(){
+  rCreate(s).then(function(){enable();done();},function(err){
+   if(err.status===409&&tries++<4){s.id=newId();put();return;}
+   enable();var m=$('made');m.innerHTML='<p class="err">We could not create the shipment. Check your connection and try again.</p>';m.classList.remove('hide');
+  });
+ })();
 };
+
+/* ================= Supabase layer ================= */
+var sess=null;
+function sbh(tok){var h={'apikey':SB_KEY,'Content-Type':'application/json'};if(tok)h['Authorization']='Bearer '+tok;return h;}
+function sb(path,opt,tok){
+ opt=opt||{};var hd=sbh(tok),k;
+ if(opt.headers)for(k in opt.headers)hd[k]=opt.headers[k];
+ opt.headers=hd;
+ return fetch(SB_URL+path,opt).then(function(r){return r.text().then(function(t){
+  var j=null;try{j=t?JSON.parse(t):null;}catch(x){}
+  if(!r.ok){var er=new Error((j&&(j.message||j.msg||j.error_description))||('HTTP '+r.status));er.status=r.status;throw er;}
+  return j;
+ });});
+}
+function sload(){try{var v=sessionStorage.getItem('otl_sess');sess=v?JSON.parse(v):null;}catch(e){sess=mem.sess||null;}}
+function ssave(x){sess=x;try{if(x)sessionStorage.setItem('otl_sess',JSON.stringify(x));else sessionStorage.removeItem('otl_sess');}catch(e){mem.sess=x;}}
+function keep(r){ssave({at:r.access_token,rt:r.refresh_token,exp:Date.now()+Math.max(60,(r.expires_in||3600)-60)*1000});}
+function login(pw){return sb('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:ADMIN_EMAIL,password:pw})}).then(keep);}
+function token(){
+ if(!sess)return Promise.reject(new Error('Signed out'));
+ if(Date.now()<sess.exp)return Promise.resolve(sess.at);
+ return sb('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:sess.rt})}).then(function(r){keep(r);return sess.at;},function(){ssave(null);throw new Error('Signed out');});
+}
+function rGet(id){return sb('/rest/v1/rpc/track_shipment',{method:'POST',body:JSON.stringify({p_id:id})});}
+function rCreate(s){return sb('/rest/v1/shipments',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:s.id,data:s})});}
+
+/* ================= Admin ================= */
+var PASS='ontimeontime2026',selId=null,flt='',rem=[],pend=Promise.resolve(),wv=0;
+var CHK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+function pool(){return USE_SB?rem:ships;}
+function aok(){if(USE_SB)return !!sess;try{return sessionStorage.getItem('otl_adm')==='1';}catch(e){return !!mem.a;}}
+function aset(v){try{if(v)sessionStorage.setItem('otl_adm','1');else sessionStorage.removeItem('otl_adm');}catch(e){mem.a=v;}}
+function toast(t){var e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove('show');},2600);}
+function sel(){return pool().filter(function(x){return x.id===selId;})[0];}
+function seen(s){var k=vis(s,cstep(s));return k<0?'Processing':STAGES[k][0];}
+function toManual(s){var c=ctl(s),k=step(s);c.mode='manual';c.stage=k;for(var j=0;j<=k;j++)c.ts[j]=Math.min(at(s,j),Date.now());}
+function setStage(s,k){
+ var c=ctl(s),j;
+ for(j=0;j<k;j++)if(!c.ts[j])c.ts[j]=Math.min(at(s,j),Date.now());
+ if(k>c.stage||!c.ts[k])c.ts[k]=Date.now();
+ for(j=k+1;j<9;j++)delete c.ts[j];
+ c.stage=k;
+}
+function authLost(err){
+ if(err&&(err.status===401||err.status===403||err.message==='Signed out')){ssave(null);showAdmin();toast('Your session ended. Enter the password again.');return true;}
+ return false;
+}
+function loadRem(){
+ return pend.then(function(){
+  var v=wv;
+  return token().then(function(t){return sb('/rest/v1/shipments?select=data&order=created_at.asc',{},t);}).then(function(rows){
+   if(v===wv)rem=(rows||[]).map(function(r){return r.data;});
+  });
+ });
+}
+function persist(s){
+ if(!USE_SB){save(ships);return;}
+ wv++;
+ pend=pend.then(function(){return token();}).then(function(t){
+  return sb('/rest/v1/shipments?id=eq.'+encodeURIComponent(s.id),{method:'PATCH',headers:{'Prefer':'return=representation'},body:JSON.stringify({data:s})},t);
+ }).then(function(r){if(!r||!r.length)throw new Error('Not saved');}).catch(function(err){
+  if(!authLost(err))toast('Could not save that change. Check your connection, then press Refresh.');
+ });
+}
+function openAdmin(){$('bk').classList.add('hide');document.body.classList.add('adm');showAdmin();}
+function closeAdmin(){document.body.classList.remove('adm');window.scrollTo(0,0);}
+function showAdmin(){
+ var ok=aok();
+ $('gate').classList.toggle('hide',ok);$('dash').classList.toggle('hide',!ok);
+ window.scrollTo(0,0);
+ if(!ok){$('pw').focus();return;}
+ if(!USE_SB){drawAdmin();return;}
+ $('a-list').innerHTML='<p class="a-none">Loading shipments…</p>';
+ loadRem().then(drawAdmin,function(err){if(!authLost(err)){drawAdmin();toast('Could not load shipments. Check your connection, then press Refresh.');}});
+}
+
+function drawKpis(){
+ var p=pool(),t=p.length,d=0,mn=0;
+ p.forEach(function(s){if(cstep(s)===8)d++;if(man(s))mn++;});
+ function k(l,n){return '<div class="a-k"><span class="a-kl">'+l+'</span><span class="a-kn">'+n+'</span></div>';}
+ $('kpis').innerHTML='<div class="a-k em"><span class="a-kl">Total shipments</span><span class="a-kn">'+t+'</span></div>'+k('In transit',t-d)+k('Delivered',d)+k('On manual control',mn);
+}
+function drawList(){
+ var q=flt.trim().toLowerCase();
+ var a=pool().slice().reverse().filter(function(s){return !q||(s.id+' '+s.sender+' '+s.receiver+' '+s.from+' '+s.to).toLowerCase().indexOf(q)>-1;});
+ $('a-list').innerHTML=a.length?a.map(function(s){
+  return '<button type="button" class="a-it" data-id="'+s.id+'" aria-pressed="'+(s.id===selId)+'"><span class="a-id">'+s.id+'</span>'+(man(s)?'<span class="a-tag">Manual</span>':'<span></span>')+
+  '<span class="a-rt">'+esc(s.from)+' to '+esc(s.to)+'</span><span class="a-st"><i'+(vis(s,cstep(s))===8?' class="g"':'')+'></i>'+esc(seen(s))+'</span></button>';
+ }).join(''):'<p class="a-none">'+(pool().length?'No shipment matches your search.':'No shipments yet. Create one on the Ship tab and it will appear here.')+'</p>';
+}
+function drawDet(){
+ var s=sel(),el=$('a-det');
+ if(!s){el.innerHTML='<div class="a-empty">'+(pool().length?'Select a shipment to manage its milestones.':'Milestone controls appear here once a shipment exists.')+'</div>';return;}
+ var c=ctl(s),m=man(s),i=cstep(s),rows='',k;
+ for(k=0;k<9;k++){
+  var off=hid(s,k),done=k<i||(k===i&&i===8),isCur=k===i&&!done,
+  stc=done?'done':isCur?'cur':'up',
+  state=done?'Completed '+fmt(when(s,k)):isCur?'Current milestone':'Not reached yet';
+  rows+='<li class="a-m '+stc+(off?' off':'')+'"><span class="a-mk">'+(done?CHK:(k+1))+'</span>'+
+  '<div class="a-mt"><b>'+STAGES[k][0]+'</b><span>'+fill(STAGES[k][2],s)+'</span><em>'+state+'</em></div>'+
+  '<div class="a-ma">'+(m&&k!==i?'<button type="button" class="a-b gh sm" data-act="setk" data-k="'+k+'">Set as current</button>':'')+
+  '<span class="a-swg"><button type="button" class="a-sw" role="switch" aria-checked="'+(!off)+'" aria-label="Show '+STAGES[k][0]+' on the tracking page" data-act="tog" data-k="'+k+'"><i></i></button><span class="a-swl">'+(off?'Hidden':'Shown')+'</span></span></div></li>';
+ }
+ el.innerHTML='<div class="a-dh"><div><div class="a-tid">'+s.id+'</div><div class="a-sub">'+esc(s.from)+' to '+esc(s.to)+'</div></div>'+
+ '<div class="a-bt"><button type="button" class="a-b gh sm" data-act="copy">Copy ID</button><button type="button" class="a-b gh sm" data-act="preview">Preview on website</button></div></div>'+
+ '<div class="a-info"><div class="hl">Customers see<strong>'+esc(seen(s))+'</strong></div><div>Receiver<strong>'+esc(s.receiver)+'</strong></div><div>Service<strong>'+svc(s)+'</strong></div><div>Booked<strong>'+fmt(s.created)+'</strong></div></div>'+
+ '<div class="a-blk"><h3>How should progress update?</h3><div class="a-seg" role="group" aria-label="Progress mode"><button type="button" data-act="auto" aria-pressed="'+(!m)+'">Automatic</button><button type="button" data-act="manual" aria-pressed="'+m+'">Manual</button></div>'+
+ '<p class="a-hint">'+(m?'You are in control. The current milestone only moves when you move it.':'The current milestone moves forward by itself as the delivery timer runs. Switch to Manual to choose it yourself.')+'</p>'+
+ (m?'<div class="a-tb"><button type="button" class="a-b gh sm" data-act="prev"'+(c.stage<=0?' disabled':'')+'>Back one milestone</button><button type="button" class="a-b sm" data-act="next"'+(c.stage>=8?' disabled':'')+'>Next milestone</button><button type="button" class="a-b gh sm" data-act="deliv"'+(c.stage>=8?' disabled':'')+'>Mark as delivered</button></div>':'')+'</div>'+
+ '<div class="a-blk"><div class="a-ph"><h3>Milestones</h3><button type="button" class="a-lk" data-act="showall">Show all</button></div><p class="a-hint">Use the switch on each row to show or hide that milestone on the tracking page. Changes apply straight away.</p><ol class="a-ms">'+rows+'</ol></div>';
+}
+function drawAdmin(){
+ var p=pool();
+ if(!sel()&&p.length)selId=p[p.length-1].id;
+ drawKpis();drawList();drawDet();
+}
+function commit(msg,s){drawAdmin();if(cur)render();toast(msg);persist(s);}
+
+$('t-admin').onclick=openAdmin;
+$('g-back').onclick=closeAdmin;
+$('a-site').onclick=closeAdmin;
+$('a-out').onclick=function(){if(USE_SB)ssave(null);else aset(false);showAdmin();};
+$('bk').onclick=openAdmin;
+if(!USE_SB)$('a-ref').classList.add('hide');
+if(USE_SB&&$('faq-dev'))$('faq-dev').parentNode.removeChild($('faq-dev'));
+$('a-ref').onclick=function(){
+ loadRem().then(function(){drawAdmin();toast('Shipments refreshed.');},function(err){if(!authLost(err))toast('Could not refresh. Check your connection.');});
+};
+$('pwt').onclick=function(){var p=$('pw'),show=p.type==='password';p.type=show?'text':'password';this.textContent=show?'Hide':'Show';this.setAttribute('aria-pressed',show);};
+$('f-gate').onsubmit=function(e){
+ e.preventDefault();
+ var pw=$('pw').value.trim(),btn=$('f-gate').querySelector('button[type="submit"]');
+ function unlock(){$('pw').value='';$('pw').type='password';$('pwt').textContent='Show';$('pwt').setAttribute('aria-pressed','false');$('e-gate').classList.add('hide');showAdmin();}
+ function fail(msg){$('e-gate').textContent=msg;$('e-gate').classList.remove('hide');$('pw').select();}
+ if(!USE_SB){
+  if(pw===PASS){aset(true);unlock();}
+  else fail('That password is not correct. Check it and try again.');
+  return;
+ }
+ btn.disabled=true;btn.textContent='Checking…';
+ login(pw).then(function(){btn.disabled=false;btn.textContent='Unlock admin';unlock();},function(err){
+  btn.disabled=false;btn.textContent='Unlock admin';
+  fail(err.status===400?'That password is not correct. Check it and try again.':'We could not reach the server. Check your connection and try again.');
+ });
+};
+$('a-q').oninput=function(){flt=this.value;drawList();};
+$('a-list').onclick=function(e){
+ var b=e.target.closest('[data-id]');if(!b)return;
+ selId=b.dataset.id;drawAdmin();
+ var n=$('a-list').querySelector('[data-id="'+selId+'"]');if(n)n.focus();
+ if(window.innerWidth<=1020)$('a-det').scrollIntoView({block:'start'});
+};
+$('a-det').onclick=function(e){
+ var b=e.target.closest('[data-act]');if(!b)return;
+ var s=sel();if(!s)return;
+ var c=ctl(s),a=b.dataset.act,k=+b.dataset.k,kd=b.dataset.k;
+ function cm(msg){commit(msg,s);}
+ if(a==='copy'){
+  try{navigator.clipboard.writeText(s.id).then(function(){toast('ID copied.');},function(){toast(s.id);});}catch(x){toast(s.id);}
+  return;
+ }
+ if(a==='preview'){
+  pend.then(function(){closeAdmin();tab('track');$('tid').value=s.id;recent();show(s.id);$('bk').classList.remove('hide');});
+  return;
+ }
+ if(a==='auto'){if(!man(s))return;c.mode='auto';cm('Automatic updates are on.');}
+ else if(a==='manual'){if(man(s))return;toManual(s);cm('Manual control is on.');}
+ else if(a==='prev'){setStage(s,Math.max(0,c.stage-1));cm('Current milestone is now '+STAGES[c.stage][0]+'.');}
+ else if(a==='next'){setStage(s,Math.min(8,c.stage+1));cm('Current milestone is now '+STAGES[c.stage][0]+'.');}
+ else if(a==='deliv'){setStage(s,8);cm('Marked as delivered.');}
+ else if(a==='setk'){setStage(s,k);cm('Current milestone is now '+STAGES[k][0]+'.');}
+ else if(a==='tog'){if(c.hide[k])delete c.hide[k];else c.hide[k]=true;cm(STAGES[k][0]+(c.hide[k]?' is hidden from customers.':' is shown to customers.'));}
+ else if(a==='showall'){c.hide={};cm('All milestones are shown to customers.');}
+ var n=$('a-det').querySelector('[data-act="'+a+'"]'+(kd!==undefined?'[data-k="'+kd+'"]':''));
+ if(n&&!n.disabled)n.focus();
+};
+window.addEventListener('storage',function(e){
+ if(e.key!=='otl_ships'||USE_SB)return;
+ ships=load();
+ if(cur){var n=ships.filter(function(x){return x.id===cur.id;})[0];if(n){cur=n;render();}}
+ recent();
+ if(document.body.classList.contains('adm')&&aok())drawAdmin();
+});
+setInterval(function(){
+ if(USE_SB&&aok()&&document.body.classList.contains('adm')&&!document.hidden)loadRem().then(function(){drawKpis();drawList();},function(){});
+},20000);
+sload();
 recent();
 })();
 </script>
