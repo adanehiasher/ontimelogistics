@@ -475,7 +475,8 @@ function show(id){
  }
  if(USE_SB){
   if(!id){miss();return;}
-  rGet(id).then(function(d){if(my!==reqN)return;if(d)go(d);else miss();},function(){if(my!==reqN)return;cur=null;$('res').classList.add('hide');$('e-track').textContent='We could not reach the tracking service. Check your connection and try again.';$('e-track').classList.remove('hide');});
+  function held(){return ships.filter(function(x){return x.id===id&&x.pending;})[0];}
+  rGet(id).then(function(d){if(my!==reqN)return;if(d)go(d);else{var l=held();if(l)go(l);else miss();}},function(){if(my!==reqN)return;var l=held();if(l){go(l);return;}cur=null;$('res').classList.add('hide');$('e-track').textContent='We could not reach the tracking service. Check your connection and try again.';$('e-track').classList.remove('hide');});
   return;
  }
  var s=ships.filter(function(x){return x.id===id;})[0];
@@ -488,10 +489,10 @@ $('f-ship').onsubmit=function(e){
  e.preventDefault();
  var btn=$('f-ship').querySelector('button[type="submit"]');
  var s={id:newId(),sender:$('s-name').value.trim(),receiver:$('r-name').value.trim(),from:$('s-city').value.trim(),to:$('r-city').value.trim(),weight:$('wt').value,days:+$('svc').value,desc:$('desc').value.trim(),total:1800000,created:Date.now()};
- function done(){
+ function done(note){
   ships.push(s);save(ships);
   var m=$('made');
-  m.innerHTML='<div class="ok-box"><div>Your consignment is booked. Tracking ID:</div><div class="tid">'+s.id+'</div><div class="acts"><button class="btn" id="go" type="button">Track this parcel</button><button class="btn ghost" id="cp" type="button">Copy ID</button></div></div>';
+  m.innerHTML='<div class="ok-box"><div>Your consignment is booked. Tracking ID:</div><div class="tid">'+s.id+'</div><div class="acts"><button class="btn" id="go" type="button">Track this parcel</button><button class="btn ghost" id="cp" type="button">Copy ID</button></div>'+(note||'')+'</div>';
   m.classList.remove('hide');
   $('go').onclick=function(){tab('track');$('tid').value=s.id;recent();show(s.id);};
   $('cp').onclick=function(){var b=$('cp');try{navigator.clipboard.writeText(s.id).then(function(){b.textContent='Copied';});}catch(x){b.textContent=s.id;}};
@@ -504,7 +505,9 @@ $('f-ship').onsubmit=function(e){
  (function put(){
   rCreate(s).then(function(){enable();done();},function(err){
    if(err.status===409&&tries++<4){s.id=newId();put();return;}
-   enable();var m=$('made');m.innerHTML='<p class="err">We could not create the shipment. Check your connection and try again.</p>';m.classList.remove('hide');
+   enable();if(window.console)console.error('Create shipment failed',err);
+   s.pending=true;
+   done('<p style="font-size:13px;margin:12px 0 0;opacity:.85">Heads up: this ID is saved on this device but has not reached our tracking server yet, so it may not work on other devices until it syncs. Technical detail: '+esc(String(err&&err.message||err))+(err&&err.status?' (code '+err.status+')':'')+'</p>');
   });
  })();
 };
@@ -532,7 +535,14 @@ function token(){
  return sb('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:sess.rt})}).then(function(r){keep(r);return sess.at;},function(){ssave(null);throw new Error('Signed out');});
 }
 function rGet(id){return sb('/rest/v1/rpc/track_shipment',{method:'POST',body:JSON.stringify({p_id:id})});}
-function rCreate(s){return sb('/rest/v1/shipments',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:s.id,data:s})});}
+function rCreate(s){var d={},k;for(k in s)if(k!=='pending')d[k]=s[k];return sb('/rest/v1/shipments',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({id:s.id,data:d})});}
+function syncPending(){
+ if(!USE_SB)return;
+ ships.filter(function(x){return x.pending;}).forEach(function(x){
+  function ok(){delete x.pending;save(ships);}
+  rCreate(x).then(ok,function(err){if(err&&err.status===409)ok();});
+ });
+}
 
 /* ================= Admin ================= */
 var PASS='ontimeontime2026',selId=null,flt='',rem=[],pend=Promise.resolve(),wv=0;
@@ -695,6 +705,7 @@ setInterval(function(){
  if(USE_SB&&aok()&&document.body.classList.contains('adm')&&!document.hidden)loadRem().then(function(){drawKpis();drawList();},function(){});
 },20000);
 sload();
+syncPending();setInterval(syncPending,30000);window.addEventListener('online',syncPending);
 recent();
 })();
 </script>
