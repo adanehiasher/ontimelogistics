@@ -561,15 +561,18 @@ function setStage(s,k){
  for(j=k+1;j<9;j++)delete c.ts[j];
  c.stage=k;
 }
+var lastErr='';
+function fmtErr(err){return String(err&&err.message||err)+(err&&err.status?' (code '+err.status+')':'');}
 function authLost(err){
- if(err&&(err.status===401||err.status===403||err.message==='Signed out')){ssave(null);showAdmin();toast('Your session ended. Enter the password again.');return true;}
+ var msg=(err&&err.message)||'';
+ if(err&&(msg==='Signed out'||(err.status===401&&/jwt|expired|token/i.test(msg)))){ssave(null);showAdmin();toast('Your session ended. Enter the password again.');return true;}
  return false;
 }
 function loadRem(){
  return pend.then(function(){
   var v=wv;
   return token().then(function(t){return sb('/rest/v1/shipments?select=data&order=created_at.asc',{},t);}).then(function(rows){
-   if(v===wv)rem=(rows||[]).map(function(r){return r.data;});
+   lastErr='';if(v===wv)rem=(rows||[]).map(function(r){return r.data;});
   });
  });
 }
@@ -579,7 +582,7 @@ function persist(s){
  pend=pend.then(function(){return token();}).then(function(t){
   return sb('/rest/v1/shipments?id=eq.'+encodeURIComponent(s.id),{method:'PATCH',headers:{'Prefer':'return=representation'},body:JSON.stringify({data:s})},t);
  }).then(function(r){if(!r||!r.length)throw new Error('Not saved');}).catch(function(err){
-  if(!authLost(err))toast('Could not save that change. Check your connection, then press Refresh.');
+  if(!authLost(err)){if(window.console)console.error('Save failed',err);toast('Could not save that change: '+fmtErr(err));}
  });
 }
 function openAdmin(){$('bk').classList.add('hide');document.body.classList.add('adm');showAdmin();}
@@ -591,7 +594,7 @@ function showAdmin(){
  if(!ok){$('pw').focus();return;}
  if(!USE_SB){drawAdmin();return;}
  $('a-list').innerHTML='<p class="a-none">Loading shipments…</p>';
- loadRem().then(drawAdmin,function(err){if(!authLost(err)){drawAdmin();toast('Could not load shipments. Check your connection, then press Refresh.');}});
+ loadRem().then(drawAdmin,function(err){if(!authLost(err)){if(window.console)console.error('Load shipments failed',err);lastErr=fmtErr(err);drawAdmin();}});
 }
 
 function drawKpis(){
@@ -606,7 +609,7 @@ function drawList(){
  $('a-list').innerHTML=a.length?a.map(function(s){
   return '<button type="button" class="a-it" data-id="'+s.id+'" aria-pressed="'+(s.id===selId)+'"><span class="a-id">'+s.id+'</span>'+(man(s)?'<span class="a-tag">Manual</span>':'<span></span>')+
   '<span class="a-rt">'+esc(s.from)+' to '+esc(s.to)+'</span><span class="a-st"><i'+(vis(s,cstep(s))===8?' class="g"':'')+'></i>'+esc(seen(s))+'</span></button>';
- }).join(''):'<p class="a-none">'+(pool().length?'No shipment matches your search.':'No shipments yet. Create one on the Ship tab and it will appear here.')+'</p>';
+ }).join(''):'<p class="a-none">'+(lastErr?'Could not load shipments. Technical detail: '+esc(lastErr):pool().length?'No shipment matches your search.':'No shipments yet. Create one on the Ship tab and it will appear here.')+'</p>';
 }
 function drawDet(){
  var s=sel(),el=$('a-det');
@@ -644,7 +647,7 @@ $('bk').onclick=openAdmin;
 if(!USE_SB)$('a-ref').classList.add('hide');
 if(USE_SB&&$('faq-dev'))$('faq-dev').parentNode.removeChild($('faq-dev'));
 $('a-ref').onclick=function(){
- loadRem().then(function(){drawAdmin();toast('Shipments refreshed.');},function(err){if(!authLost(err))toast('Could not refresh. Check your connection.');});
+ loadRem().then(function(){drawAdmin();toast('Shipments refreshed.');},function(err){if(!authLost(err)){if(window.console)console.error('Refresh failed',err);lastErr=fmtErr(err);drawAdmin();toast('Could not refresh shipments.');}});
 };
 $('pwt').onclick=function(){var p=$('pw'),show=p.type==='password';p.type=show?'text':'password';this.textContent=show?'Hide':'Show';this.setAttribute('aria-pressed',show);};
 $('f-gate').onsubmit=function(e){
