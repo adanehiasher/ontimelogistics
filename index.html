@@ -278,7 +278,6 @@ body.adm .a-bk{display:none}
 <div><label for="wt">Weight (kg)</label><input id="wt" type="number" min="0.1" step="0.1" value="2" required></div>
 <div><label for="svc">Service</label><select id="svc"><option value="2">Express (2 days)</option><option value="5" selected>Standard (5 days)</option><option value="8">Economy (8 days)</option></select></div>
 <div class="full"><label for="desc">Package contents</label><input id="desc" required placeholder="Documents, clothing, electronics…"></div>
-<div class="full"><label for="spd">Update speed</label><select id="spd"><option value="600000">Rapid – delivered in about 10 minutes</option><option value="1800000" selected>Standard – about 30 minutes</option><option value="7200000">Extended – about 2 hours</option><option value="86400000">Overnight – about 24 hours</option></select></div>
 <div class="full"><button class="btn" type="submit">Generate tracking ID</button></div>
 </form>
 <div id="made" class="hide"></div>
@@ -376,14 +375,11 @@ body.adm .a-bk{display:none}
 <button type="button" class="a-bk hide" id="bk">Back to admin</button>
 
 <script>
-    var SB_URL='https://pbdfmkrjxazfsgjvwnzm.supabase.co';
-    var SB_KEY='sb_publishable_SbtPic3CYVnxr77pYCG6yw_Ptr3d8Vu';
-    var ADMIN_EMAIL='ontimelogiisticss@gmail.com';
 (function(){
 /* ===== Supabase connection: fill in these three values (see the setup guide) ===== */
-var SB_URL='';        /* Project URL, e.g. https://abcdefgh.supabase.co */
-var SB_KEY='';        /* The public "anon" or "publishable" key. Never the secret / service_role key. */
-var ADMIN_EMAIL='';   /* The email of the admin user you create in Supabase */
+var SB_URL='https://pbdfmkrjxazfsgjvwnzm.supabase.co';        /* Project URL, e.g. https://abcdefgh.supabase.co */
+var SB_KEY='sb_publishable_SbtPic3CYVnxr77pYCG6yw_Ptr3d8Vu';        /* The public "anon" or "publishable" key. Never the secret / service_role key. */
+var ADMIN_EMAIL='ontimelogiisticss@gmail.com';   /* The email of the admin user you create in Supabase */
 var USE_SB=!!(SB_URL&&SB_KEY&&ADMIN_EMAIL);
 SB_URL=SB_URL.replace(/\/+$/,'');
 var STAGES=[
@@ -491,7 +487,7 @@ $('f-track').onsubmit=function(e){e.preventDefault();show($('tid').value);};
 $('f-ship').onsubmit=function(e){
  e.preventDefault();
  var btn=$('f-ship').querySelector('button[type="submit"]');
- var s={id:newId(),sender:$('s-name').value.trim(),receiver:$('r-name').value.trim(),from:$('s-city').value.trim(),to:$('r-city').value.trim(),weight:$('wt').value,days:+$('svc').value,desc:$('desc').value.trim(),total:+$('spd').value,created:Date.now()};
+ var s={id:newId(),sender:$('s-name').value.trim(),receiver:$('r-name').value.trim(),from:$('s-city').value.trim(),to:$('r-city').value.trim(),weight:$('wt').value,days:+$('svc').value,desc:$('desc').value.trim(),total:1800000,created:Date.now()};
  function done(){
   ships.push(s);save(ships);
   var m=$('made');
